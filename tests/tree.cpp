@@ -54,6 +54,7 @@ TEST_CASE("find")
 TEST_CASE("equal")
 {
 	tree_t<int> tree1;
+	tree_t<int> tree2;
 	//tree_t<int> tree2 {2 , 1 , 3 , 6 , 9 , 7 };
 	tree1.insert(2);
 	tree1.insert(1);
