@@ -51,7 +51,7 @@ TEST_CASE("find")
 	REQUIRE(tree.find(7) == true);
 }
 
-TEST_CASE("equal")
+/*TEST_CASE("equal")
 {
 	tree_t<int> tree1;
 	tree_t<int> tree2 {2 , 1 , 3 , 6 , 9 , 7 };
@@ -70,7 +70,7 @@ TEST_CASE("equal")
 	}
 	REQUIRE(c == true);
 }
-
+*/
 TEST_CASE("remove")
 {
 	
