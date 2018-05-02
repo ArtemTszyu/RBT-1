@@ -62,10 +62,10 @@ public:
 		return left;
 	}
 	
-	void balance_insert(node_t* root)
+	void balance_insert(node_t** root)
 	{
 		node_t *left, *right, *temp_left, *temp_right;
-		node_t *node = root;
+		node_t *node = *root;
 		if (node->red) return;
 		left = node->left;
 		right = node->right;
@@ -83,7 +83,7 @@ public:
 					right->red = false;
 					return;
 				}
-				root = rotate_right(node);
+				*root = rotate_right(node);
 				return;
 			}
 		}
@@ -101,18 +101,18 @@ public:
 					left->red = false;
 					return;
 				}
-				root = rotate_left(node);
+				*root = rotate_left(node);
 				return;
 			}
 		}
 	}
 
-	bool insert(T value, node_t* root)
+	bool insert(T value, node_t** root)
 	{
-		node_t *node = root;
+		node_t *node = *root;
 		if (!node)
 		{
-			root = new_node(value);
+			*root = new_node(value);
 		}
 		else
 		{
@@ -120,7 +120,7 @@ public:
 			{
 				return true;
 			}
-			if (insert(value, value < node->value ? node->left : node->right))
+			if (insert(value, value < node->value ? &node->left : &node->right))
 			{
 				return true;
 			}
@@ -131,7 +131,7 @@ public:
 	
 	void insert(T value)
 	{
-		insert(value,root_);
+		insert(value,&root_);
 		if (root_) root_->red = false;
 	}
 
@@ -182,9 +182,9 @@ public:
 		return (!root_);
 	}
 
-	bool balance_remove_left(node_t* root)
+	bool balance_remove_left(node_t** root)
 	{
-		node_t *node = root;
+		node_t *node = *root;
 		node_t *left = node->left;
 		node_t *right = node->right;
 		if (left && left->red) {
@@ -194,7 +194,7 @@ public:
 		if (right && right->red) { // 1
 			node->red = true;
 			right->red = false;
-			node = root = rotate_left(node);
+			node = *root = rotate_left(node);
 			if (balance_remove_left(node->left))
 			{
 				node->left->red = false;
@@ -221,15 +221,15 @@ public:
 		case 4:		
 			right->red = node->red;
 			right_of_right->red = node->red = false;
-			root = rotate_left(node);
+			*root = rotate_left(node);
 			break;
 		}
 		return false;
 	}
 
-	bool balance_remove_right(node_t* root)
+	bool balance_remove_right(node_t** root)
 	{
-		node_t *node = root;
+		node_t *node = *root;
 		node_t *left = node->left;
 		node_t *right = node->right;
 		if (right && right->red)
@@ -240,7 +240,7 @@ public:
 		if (left && left->red) { // 1
 			node->red = true;
 			left->red = false;
-			node = root = rotate_right(node);
+			node = *root = rotate_right(node);
 			if (balance_remove_right(&node->right))
 			{
 				node->right->red = false;
@@ -266,7 +266,7 @@ public:
 		case 4:		
 			left->red = node->red;
 			left_of_left->red = node->red = false;
-			root = rotate_right(node);
+			*root = rotate_right(node);
 			break;
 		}
 		return false;
@@ -276,54 +276,54 @@ public:
 	// root корень дерева в котором надо найти элемент
 	// key элемент который был удалён
 	// result true если нужен баланс
-	bool simple_remove(node_t *root, node_t *removed_key)
+	bool simple_remove(node_t **root, node_t **removed_key)
 	{
-		node_t *node = root;
+		node_t *node = *root;
 		if (node->left) {
-			if (simple_remove(node->left, removed_key)){
-				return balance_remove_left(root);
+			if (simple_remove(node->left, *removed_key)){
+				return balance_remove_left(*root);
 			}
 		}
 		else {
-			root = node->right;
-			removed_key = node;
+			*root = node->right;
+			*removed_key = node;
 			return !node->red;
 		}
 		return false;
 	}
 
-	bool remove(node_t* root, T value, bool success)
+	bool remove(node_t** root, T value, bool success)
 	{
 		node_t * temp;
-		node_t *node = root;
+		node_t *node = *root;
 		if (!node) {
 			return false;
 		}
 		if (node->value < value) {
 			if (remove(node->right, value)){
-				return balance_remove_right(root);
+				return balance_remove_right(*root);
 			}
 		}
 		else if (node->value > value) {
 			if (remove(node->left, value)){
-				return balance_remove_left(root)
+				return balance_remove_left(*root)
 			}
 		}
 		else {
 			success = true;
 			bool result;
 			if (!node->right) {
-				root = node->left;
+				*root = node->left;
 				result = !node->red;
 			}
 			else {
-				result = simple_remove(node->right, root);
-				temp = root; // продолжение удаления 
+				result = simple_remove(node->right, *root);
+				temp = *root; // продолжение удаления 
 				temp->red = node->red;
 				temp->left = node->left;
 				temp->right = node->right;
 				if (result) {
-					result = balance_remove_right(root);
+					result = balance_remove_right(*root);
 				}
 			}
 			delete node;
