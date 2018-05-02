@@ -356,7 +356,7 @@ public:
 		}
 	}
 
-	auto operator==(tree_t const & other) const
+	bool operator==(tree_t const & other) const
 	{
 		node_t * a, *b;
 		a = root_;
