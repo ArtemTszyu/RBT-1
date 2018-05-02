@@ -366,8 +366,8 @@ public:
 
 	tree_t(std::initializer_list<T> keys)
 	{
+		root_ = nullptr;
 		size_t size = keys.size();
-
 		for (size_t i = 0; i < size; i++) {
 			T a = *(keys.begin() + i);
 			(*this).insert(a);
