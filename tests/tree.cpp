@@ -68,7 +68,7 @@ TEST_CASE("remove")
 {
 	
 	tree_t<int> tree {2 , 1 , 3 , 6 , 9 , 7 , 8};
-	td::string out {
+	std::string out {
 		"------9\n"
 		"----8\n"
 		"------7\n"
