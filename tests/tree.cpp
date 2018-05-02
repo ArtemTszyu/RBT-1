@@ -61,8 +61,14 @@ TEST_CASE("equal")
 	tree1.insert(6);
 	tree1.insert(9);
 	tree1.insert(7);
-	bool equale = (tree1==tree2);
-	REQUIRE(equale == true);
+	bool c;
+	if (tree1.operator==(tree2)){
+		c = true;
+	}
+	else {
+		c = false;
+	}
+	REQUIRE(c == true);
 }
 
 TEST_CASE("remove")
