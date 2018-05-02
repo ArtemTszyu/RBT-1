@@ -46,7 +46,7 @@ TEST_CASE("find")
 	tree.insert(8);
 	
 	REQUIRE(tree.find(5) == false);
-	REQUIRE(tree.find(8) == false);
+	REQUIRE(tree.find(8) == true);
 	REQUIRE(tree.find(9) == true);	
 	REQUIRE(tree.find(7) == true);
 }
