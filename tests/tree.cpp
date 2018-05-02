@@ -67,10 +67,22 @@ TEST_CASE("equal")
 TEST_CASE("remove")
 {
 	
-	tree_t<int> tree {2 , 1 , 3 , 6 , 9 , 7 };
+	tree_t<int> tree {2 , 1 , 3 , 6 , 9 , 7 , 8};
+	td::string out {
+		"------9\n"
+		"----8\n"
+		"------7\n"
+		"--6\n"
+		"------3\n"
+		"----2\n"
+	};
 	bool one = tree.remove(1);
 	bool two = tree.remove(10);
 	
+	std::ostringstream ostream;
+	tree.print(ostream , tree.root());
+	
+	REQUIRE(ostream.str() == out);
 	REQUIRE(one);
 	REQUIRE(!two);
 }
