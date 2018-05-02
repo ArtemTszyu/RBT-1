@@ -370,7 +370,7 @@ public:
 
 		for (size_t i = 0; i < size; i++) {
 			T a = *(keys.begin() + i);
-			insert(a);
+			(*this).insert(a);
 		}
 	}
 };
