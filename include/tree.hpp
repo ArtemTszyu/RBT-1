@@ -195,7 +195,7 @@ public:
 			node->red = true;
 			right->red = false;
 			node = *root = rotate_left(node);
-			if (balance_remove_left(node->left))
+			if (balance_remove_left(&node->left))
 			{
 				node->left->red = false;
 			}
@@ -280,8 +280,8 @@ public:
 	{
 		node_t *node = *root;
 		if (node->left) {
-			if (simple_remove(node->left, *removed_key)){
-				return balance_remove_left(*root);
+			if (simple_remove(&node->left, removed_key)){
+				return balance_remove_left(root);
 			}
 		}
 		else {
@@ -292,7 +292,7 @@ public:
 		return false;
 	}
 
-	bool remove(node_t** root, T value, bool success)
+	bool remove(node_t** root, T value, size_t * success)
 	{
 		node_t * temp;
 		node_t *node = *root;
@@ -300,33 +300,34 @@ public:
 			return false;
 		}
 		if (node->value < value) {
-			if (remove(node->right, value)){
-				return balance_remove_right(*root);
+			if (remove(&node->right, value,success)){
+				return balance_remove_right(root);
 			}
 		}
 		else if (node->value > value) {
-			if (remove(node->left, value)){
-				return balance_remove_left(*root)
+			if (remove(&node->left, value,success)){
+				return balance_remove_left(root);
 			}
 		}
 		else {
-			success = true;
+			
 			bool result;
 			if (!node->right) {
 				*root = node->left;
 				result = !node->red;
 			}
 			else {
-				result = simple_remove(node->right, *root);
+				result = simple_remove(&node->right, root);
 				temp = *root; // продолжение удаления 
 				temp->red = node->red;
 				temp->left = node->left;
 				temp->right = node->right;
 				if (result) {
-					result = balance_remove_right(*root);
+					result = balance_remove_right(root);
 				}
 			}
 			delete node;
+			*success = 1;
 			return result;
 		}
 		return false;
@@ -334,9 +335,12 @@ public:
 
 	bool remove(T value)
 	{
-		bool success = false;
-		remove(root_, value,&success);
-		return success;
+		size_t success = 0;
+		remove(&root_, value,&success);
+		if (success == 1) {
+			return true;
+		}
+		else return false;
 	}
 
 	bool equal(node_t * lhs, node_t * rhs) const
