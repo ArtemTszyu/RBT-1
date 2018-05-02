@@ -120,7 +120,7 @@ public:
 			{
 				return true;
 			}
-			if (insert(value, value < node->value ? &node->left : &node->right))
+			if (insert(value, value < node->value ? node->left : node->right))
 			{
 				return true;
 			}
