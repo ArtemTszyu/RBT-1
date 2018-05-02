@@ -54,22 +54,14 @@ TEST_CASE("find")
 TEST_CASE("equal")
 {
 	tree_t<int> tree1;
-	//tree_t<int> tree2;
-	tree_t<int> tree2 = {2 , 1 , 3 , 6 , 9 , 7 };
+	tree_t<int> tree2 {2 , 1 , 3 , 6 , 9 , 7 };
 	tree1.insert(2);
 	tree1.insert(1);
 	tree1.insert(3);
 	tree1.insert(6);
 	tree1.insert(9);
 	tree1.insert(7);
-	/*
-	tree2.insert(2);
-	tree2.insert(1);
-	tree2.insert(3);
-	tree2.insert(6);
-	tree2.insert(9);
-	tree2.insert(7);
-	*/
+
 	REQUIRE(tree1 == tree2);
 }
 
@@ -77,14 +69,6 @@ TEST_CASE("remove")
 {
 	
 	tree_t<int> tree {2 , 1 , 3 , 6 , 9 , 7 , 8};
-	//tree_t<int> tree;
-	/*tree.insert(2);
-	tree.insert(1);
-	tree.insert(3);
-	tree.insert(6);
-	tree.insert(9);
-	tree.insert(7);
-	tree.insert(8);*/
 	std::string out {
 		"------9\n"
 		"----8\n"
