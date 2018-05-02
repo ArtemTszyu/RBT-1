@@ -21,7 +21,11 @@ TEST_CASE("insert_and_print")
 	tree.insert(8);
 	
 	std::string out {
+		"--------9\n"
+		"------8\n"
+		"--------7\n"
 		"----6\n"
+		"------3\n"
 		"--2\n"
 		"----1\n"
 	};
