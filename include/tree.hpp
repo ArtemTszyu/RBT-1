@@ -71,6 +71,12 @@ public:
 		right = node->right;
 		if (left && left->red) {
 			temp_right = left->right;
+			if (temp_right && temp_right->red && right && right->red) {
+				node->red = true;
+				right->red = false;
+				left->red = false;
+				return;
+			}
 			if (temp_right && temp_right->red)
 			{
 				left = node->left = rotate_left(left);
@@ -89,6 +95,12 @@ public:
 		}
 		if (right && right->red) {
 			temp_left = right->left;
+			if (temp_left && temp_left->red && left && left->red) {
+				node->red = true;
+				right->red = false;
+				left->red = false;
+				return;
+			}
 			if (temp_left && temp_left->red)
 			{
 				right = node->right = rotate_right(right);
